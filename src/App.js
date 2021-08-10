@@ -1,25 +1,48 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import React, {Component}from 'react';
+import {
+  BrowserRouter,
+  Route,
+  Router,
+  Switch
+} from 'react-router-dom'
+import axios from 'axios';
+
+import apiKey from './config';
+import Nav from './Components/Nav'
+import Search from './Components/Search'
+import Photo from './Components/Photo'
+export default class App extends Component {
+
+  state ={
+    images: [],
+    loading: true
+  }
+  componentDidMount(){
+    this.search()
+  }
+  search = (query = 'dog') =>{
+    axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="${query}"&per_page=24&format=json&nojsoncallback=1`)
+    .then (res =>{
+      console.log('data', res.data.photos.photo)
+      this.setState({
+        photos: res.data.photos.photo
+      })
+    })
+  }
+  render(){
+    return (
+    <div className="container">
+      {/* Search Form */}
+      <Search />
+      {/* Nav form */}
+      <Nav />
+       {/* Photo Container */}
+     <Photo />
     </div>
-  );
+    )
+  }
 }
 
-export default App;
+
