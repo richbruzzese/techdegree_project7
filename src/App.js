@@ -4,7 +4,6 @@ import React, {Component}from 'react';
 import {
   BrowserRouter,
   Route,
-  Router,
   Switch
 } from 'react-router-dom'
 import axios from 'axios';
@@ -12,35 +11,78 @@ import axios from 'axios';
 import apiKey from './config';
 import Nav from './Components/Nav'
 import Search from './Components/Search'
-import Photo from './Components/Photo'
+import PhotoContainer from './Components/PhotoContainer';
+import {cats, dogs, computers} from './Components/DefaultNavRoutes'
+
 export default class App extends Component {
 
   state ={
     images: [],
-    loading: true
+    loading: true,
+    query: 'dogs'
   }
   componentDidMount(){
-    this.search()
+    this.search('dogs')
   }
-  search = (query = 'dog') =>{
+  search = (query) =>{
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="${query}"&per_page=24&format=json&nojsoncallback=1`)
     .then (res =>{
-      console.log('data', res.data.photos.photo)
       this.setState({
-        photos: res.data.photos.photo
+        images: res.data.photos.photo,
+        loading: false,
+        query: query
       })
     })
   }
+
   render(){
     return (
+      
+      <BrowserRouter>
     <div className="container">
+      <h1>Photo Search</h1>
+      {console.log("Cats Array", cats)}
       {/* Search Form */}
-      <Search />
+      <Search onSearch={this.search}/>
+
       {/* Nav form */}
       <Nav />
+
        {/* Photo Container */}
-     <Photo />
+       {(this.state.loading) ? 
+       <p> loading...</p>:
+       (<Switch> 
+        <Route exact path='/' render={() =>
+        <PhotoContainer
+       data={this.state.images}
+        
+     />} />
+     <Route path='cats' render={() =>
+        <PhotoContainer
+       
+       data={cats}
+       
+        
+     />} />
+     <Route path='dogs' render={() =>
+        <PhotoContainer
+       
+       data={dogs}
+       
+        
+     />} />
+     <Route path='computers' render={() =>
+        <PhotoContainer
+       
+       data={computers}
+       
+        
+     />} />
+       </Switch>)} 
+       
+     
     </div>
+     </BrowserRouter>
     )
   }
 }
