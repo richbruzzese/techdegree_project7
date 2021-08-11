@@ -1,5 +1,5 @@
+//Dependencies
 import './App.css';
-
 import React, {Component}from 'react';
 import {
   BrowserRouter,
@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import axios from 'axios';
 
+//Components
 import apiKey from './config';
 import Nav from './Components/Nav'
 import Search from './Components/Search'
@@ -39,7 +40,7 @@ export default class App extends Component {
     return (
       
       <BrowserRouter>
-    <div className="container">
+      <div className="container">
       <h1>Photo Search</h1>
       {console.log("Cats Array", cats)}
       {/* Search Form */}
@@ -52,6 +53,7 @@ export default class App extends Component {
        {(this.state.loading) ? 
        <p> loading...</p>:
        (<Switch> 
+       
         <Route exact path='/' render={() =>
         <PhotoContainer
        data={this.state.images}
