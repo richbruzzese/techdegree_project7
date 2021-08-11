@@ -19,19 +19,23 @@ export default class App extends Component {
 
   state ={
     images: [],
+    cats:[],
+    dogs:[],
+    computers: [],
     loading: true,
-    query: 'dogs'
   }
   componentDidMount(){
     this.search('dogs')
-  }
+}
+
   search = (query) =>{
+    this.setState({loading: true})
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="${query}"&per_page=24&format=json&nojsoncallback=1`)
     .then (res =>{
       this.setState({
         images: res.data.photos.photo,
         loading: false,
-        query: query
+        title: query
       })
     })
   }
@@ -53,36 +57,36 @@ export default class App extends Component {
        {(this.state.loading) ? 
        <p> loading...</p>:
        (<Switch> 
-       
-        <Route exact path='/' render={() =>
-        <PhotoContainer
-       data={this.state.images}
+
+      <Route exact path='/' render={() =>
         
-     />} />
-     <Route path='cats' render={() =>
         <PhotoContainer
-       
-       data={cats}
-       
-        
-     />} />
-     <Route path='dogs' render={() =>
-        <PhotoContainer
-       
-       data={dogs}
-       
-        
-     />} />
-     <Route path='computers' render={() =>
-        <PhotoContainer
-       
-       data={computers}
-       
-        
-     />} />
+       data={this.state.images}/>} 
+
+       />
+     <Route path='/cats' render={() =>
+        <PhotoContainer data={cats}/>} 
+
+       />
+     <Route path='/dogs' render={() =>
+        <PhotoContainer data={dogs}/>}
+         />
+
+     <Route path='/computers' render={() =>
+        <PhotoContainer data={computers}/>}  
+       />
+      <Route exact path="/search/:query" 
+        render={({match}) => (
+          <PhotoContainer 
+            data={this.state.images}
+            onSearch={this.search}
+            query={match.params.query}
+          />
+        )}
+      />
+
        </Switch>)} 
-       
-     
+         
     </div>
      </BrowserRouter>
     )

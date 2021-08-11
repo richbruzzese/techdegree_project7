@@ -5,7 +5,9 @@ import Photo from './Photo'
 class PhotoContainer extends Component {
 
     componentDidUpdate(){
-
+        if(this.props.searchText !== this.props.query){
+            this.props.reload(this.props.query)
+        }
     }
 
     render(){
@@ -14,7 +16,9 @@ class PhotoContainer extends Component {
             if(results.length >0) {
             photos = results.map(photo =>
                 <Photo 
-                    url={`https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`}
+                    server={photo.server}
+                    id={photo.id}
+                    secret={photo.secret}
                     alt={photo.title}
                     key={photo.id}
                 />)

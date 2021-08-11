@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
+import { withRouter } from 'react-router'
 
-export default class Search extends Component{
+class Search extends Component{
 
   state = {
     searchText: ''
@@ -13,6 +14,7 @@ export default class Search extends Component{
   handleSubmit = e => {
     e.preventDefault()
     this.props.onSearch(this.query.value)
+    this.props.history.push(`/search/${this.query.value}`)
     e.currentTarget.reset()
   }
 
@@ -22,7 +24,7 @@ export default class Search extends Component{
       <input type="search" 
         onChange={this.onSearch}
         name="search"
-        ref={(input) => this.query = input} 
+        ref={input => (this.query = input)} 
         placeholder="Search" 
         required />
       <button>
@@ -36,4 +38,4 @@ export default class Search extends Component{
   }
 }
 
-
+export default withRouter(Search)
