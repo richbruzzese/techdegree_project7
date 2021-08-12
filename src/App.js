@@ -91,7 +91,7 @@ export default class App extends Component {
           <PhotoContainer 
             data={this.state.images}
             onSearch={this.search}
-            searchText={this.state.query}
+            searchText={this.state.searchText}
             query={match.params.query}
           />
         )}
