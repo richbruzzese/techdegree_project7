@@ -1,5 +1,4 @@
 //Dependencies
-import './App.css';
 import React, {Component}from 'react';
 import {
   BrowserRouter,
