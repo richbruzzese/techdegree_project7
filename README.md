@@ -22,5 +22,5 @@ Create a config.js file containing a Flickr API key.
 _API Key required in order to fetch data from Flickr_
 
 #### config.js format
-_const apiKey = ''_
-_export default apiKey_
+`const apiKey = ''`
+`export default apiKey`
