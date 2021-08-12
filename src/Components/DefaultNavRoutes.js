@@ -1,24 +1,27 @@
 import axios from 'axios'
 import apiKey from '../config'
 
-let cats={}
-let dogs={}
-let computers ={}
+let trees={}
+let castles={}
+let mountains ={}
 
-
-axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="cats"&per_page=24&format=json&nojsoncallback=1`)
+/**
+ * Fetch data for default nav elements on page.
+ * Export them to App.
+ */
+axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="trees"&per_page=24&format=json&nojsoncallback=1`)
 .then (res =>{
-    cats = res.data.photos.photo
+    trees = res.data.photos.photo
 })
 
-axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="dogs"&per_page=24&format=json&nojsoncallback=1`)
+axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="castles"&per_page=24&format=json&nojsoncallback=1`)
 .then (res =>{
-    dogs = res.data.photos.photo
+    castles = res.data.photos.photo
 })
 
-axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="computers"&per_page=24&format=json&nojsoncallback=1`)
+axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="mountains"&per_page=24&format=json&nojsoncallback=1`)
 .then (res =>{
-    computers = res.data.photos.photo
+    mountains = res.data.photos.photo
 })
 
-export {cats, dogs, computers}
+export {trees, castles, mountains}

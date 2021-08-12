@@ -2,15 +2,21 @@ import React, {Component} from 'react'
 import { withRouter } from 'react-router'
 
 class Search extends Component{
-
+  // Search text default to empty string
   state = {
     searchText: ''
   }
-
+  /**
+   * OnSearch method to update the state of searchText when handleSubmit run 
+   */
   onSearch = e => {
     this.setState({searchText: e.target.value})
   }
 
+  /**
+   * Handles passing query value to searchText
+   * push the url to history and reset the search value to empty 
+   */
   handleSubmit = e => {
     e.preventDefault()
     this.props.onSearch(this.query.value)
@@ -18,6 +24,10 @@ class Search extends Component{
     e.currentTarget.reset()
   }
 
+  /**
+   * Renders search form element.
+   * On Submit - runs handleSubmit method
+   */
   render() {
     return(
       <form className="search-form" onSubmit={this.handleSubmit}>

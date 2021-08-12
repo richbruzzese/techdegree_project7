@@ -1,4 +1,4 @@
-//Dependencies
+//Dependencies for app
 import React, {Component}from 'react';
 import {
   BrowserRouter,
@@ -7,29 +7,34 @@ import {
 } from 'react-router-dom'
 import axios from 'axios';
 
-//Components
+//Imported components
 import apiKey from './config';
 import Nav from './Components/Nav'
 import Search from './Components/Search'
 import PhotoContainer from './Components/PhotoContainer';
 import NotFound from './Components/NotFound';
 import loading from './Images/loading.gif'
-import {cats, dogs, computers} from './Components/DefaultNavRoutes'
+import {trees, castles, mountains} from './Components/DefaultNavRoutes'
 
 export default class App extends Component {
-
+  
+  /**
+   * Default images state will receive initial fetched data and search data
+   * Load state will handle when the loading animation will display
+   * searchText assist search method in defining query for search
+   */
   state ={
     images: [],
-    cats:[],
-    dogs:[],
-    computers: [],
     loading: true,
     searchText:''
   }
+
+  //On mount, run search method with the query 'Dogs'
   componentDidMount(){
     this.search('dogs')
 }
 
+  //Fetch data from Flickr and update the state. Loading state reset to true any time method is called.
   search = (query) =>{
     this.setState({loading: true})
     axios.get(`https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${apiKey}&tags="${query}"&per_page=24&format=json&nojsoncallback=1`)
@@ -42,41 +47,45 @@ export default class App extends Component {
     })
   }
 
+   // Render method to return the Routes to the page
   render(){
     return (
       
       <BrowserRouter>
       <div className="container">
       <h1>Photo Search</h1>
-      {console.log("Cats Array", cats)}
+      
       {/* Search Form */}
       <Search onSearch={this.search}/>
 
       {/* Nav form */}
       <Nav />
 
-       {/* Photo Container */}
+       {/* Photo Container 
+      If loading state is true, render load animation otherwise load Route*/}
        {(this.state.loading) ? 
         <img src={loading} alt="Loading"/> :
        (<Switch> 
 
+        {/* Default Routes to render */}
       <Route exact path='/' render={() =>
-        
         <PhotoContainer
        data={this.state.images}/>} 
 
        />
-     <Route path='/cats' render={() =>
-        <PhotoContainer data={cats}/>} 
+     <Route path='/trees' render={() =>
+        <PhotoContainer data={trees}/>} 
 
        />
-     <Route path='/dogs' render={() =>
-        <PhotoContainer data={dogs}/>}
+     <Route path='/castles' render={() =>
+        <PhotoContainer data={castles}/>}
          />
 
-     <Route path='/computers' render={() =>
-        <PhotoContainer data={computers}/>}  
+     <Route path='/mountains' render={() =>
+        <PhotoContainer data={mountains}/>}  
        />
+
+       {/* Separate route to handle search query.  Props to manage search passed to PhotoContainer */}
       <Route exact path="/search/:query" 
         render={({match}) => (
           <PhotoContainer 
@@ -87,6 +96,8 @@ export default class App extends Component {
           />
         )}
       />
+
+      {/* If no routes match, render the NotFound component */}
       <Route 
         render={() => (
           <NotFound />

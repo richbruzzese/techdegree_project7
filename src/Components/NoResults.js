@@ -1,6 +1,7 @@
 import React from 'react'
 import img from '../Images/koda-sad.png'
 
+// Results not found message to display when there is no valid search submit
 const NoResults = () =>{
     return(
         <div className="photo-container">

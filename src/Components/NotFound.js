@@ -1,6 +1,7 @@
 import React from 'react'
 import img from '../Images/koda-sad.png'
 
+//404 Component to display when no route found
 const NotFound = () =>{
     return(
         <div className="photo-container">
