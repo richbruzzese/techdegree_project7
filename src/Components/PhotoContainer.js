@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import Photo from './Photo'
-
+import NoResults from './NoResults'
 
 class PhotoContainer extends Component {
 
     componentDidUpdate(){
         if(this.props.searchText !== this.props.query){
-            this.props.reload(this.props.query)
+            this.props.onSearch(this.props.query)
         }
     }
 
@@ -23,7 +23,7 @@ class PhotoContainer extends Component {
                     key={photo.id}
                 />)
                 } else{
-                    photos = 'loading'
+                    return (<NoResults />)
                 }
 
             return (

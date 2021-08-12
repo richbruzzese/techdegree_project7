@@ -13,6 +13,8 @@ import apiKey from './config';
 import Nav from './Components/Nav'
 import Search from './Components/Search'
 import PhotoContainer from './Components/PhotoContainer';
+import NotFound from './Components/NotFound';
+import loading from './Images/loading.gif'
 import {cats, dogs, computers} from './Components/DefaultNavRoutes'
 
 export default class App extends Component {
@@ -23,6 +25,7 @@ export default class App extends Component {
     dogs:[],
     computers: [],
     loading: true,
+    searchText:''
   }
   componentDidMount(){
     this.search('dogs')
@@ -35,7 +38,7 @@ export default class App extends Component {
       this.setState({
         images: res.data.photos.photo,
         loading: false,
-        title: query
+        searchText: query
       })
     })
   }
@@ -55,7 +58,7 @@ export default class App extends Component {
 
        {/* Photo Container */}
        {(this.state.loading) ? 
-       <p> loading...</p>:
+        <img src={loading} alt="Loading"/> :
        (<Switch> 
 
       <Route exact path='/' render={() =>
@@ -80,8 +83,14 @@ export default class App extends Component {
           <PhotoContainer 
             data={this.state.images}
             onSearch={this.search}
+            searchText={this.state.query}
             query={match.params.query}
           />
+        )}
+      />
+      <Route 
+        render={() => (
+          <NotFound />
         )}
       />
 
