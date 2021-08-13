@@ -3,12 +3,7 @@ import Photo from './Photo'
 import NoResults from './NoResults'
 
 class PhotoContainer extends Component {
-    // On update if the search text doesn't match the query then run a new search
-    componentDidUpdate(){
-        if(this.props.searchText !== this.props.query){
-            this.props.onSearch(this.props.query)
-        }
-    }
+
     // Maps the data from array of photos and passes props to the Photo component. If no results, return 404
     render(){
         const results = this.props.data

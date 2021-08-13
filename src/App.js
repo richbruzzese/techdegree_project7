@@ -3,7 +3,8 @@ import React, {Component}from 'react';
 import {
   BrowserRouter,
   Route,
-  Switch
+  Switch,
+  withRouter
 } from 'react-router-dom'
 import axios from 'axios';
 
@@ -16,7 +17,7 @@ import NotFound from './Components/NotFound';
 import loading from './Images/loading.gif'
 import {trees, castles, mountains} from './Components/DefaultNavRoutes'
 
-export default class App extends Component {
+class App extends Component {
   
   /**
    * Default images state will receive initial fetched data and search data
@@ -33,6 +34,12 @@ export default class App extends Component {
   componentDidMount(){
     this.search('dogs')
 }
+    // On update if the search text doesn't match the query then run a new search
+    componentDidUpdate( prevProps, prevState ) {
+        if( this.props.location.pathname !== prevProps.location.pathname ) {
+          this.search(this.props.location.pathname.replace('/search/', ''))
+        }
+      }
 
   //Fetch data from Flickr and update the state. Loading state reset to true any time method is called.
   search = (query) =>{
@@ -113,3 +120,4 @@ export default class App extends Component {
 }
 
 
+export default withRouter(App)
